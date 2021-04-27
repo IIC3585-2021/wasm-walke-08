@@ -1,4 +1,4 @@
-import Module from "./main.js"
+import Module from "./wasm/main.js"
 
 const addPlayer = document.getElementById('add');
 const startGame = document.getElementById('start');

@@ -41,7 +41,7 @@ extern "C" {
     if(n==0){
       return cost;
     }
-    int32_t copy_nodes[m] = { }; //= (int32_t *) calloc(m, sizeof(int32_t));
+    int32_t *copy_nodes = (int32_t *) calloc(m, sizeof(int32_t));
     if (node >= 0)
     {
       for (int32_t i = 0; i < m ; i++)
@@ -71,7 +71,7 @@ extern "C" {
         }
       }
     }
-    //free(copy_nodes);
+    free(copy_nodes);
     return -1;
   }
 }
