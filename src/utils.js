@@ -42,12 +42,6 @@ const renderGraph2 = (edges, nodesNames, nodesMap, n) => {
     .attr("stroke", "black")
     .attr("stroke-width", "3");
 
-  container.selectAll("g.lineas")
-    .append("text")
-      .attr("class", "costo")
-      .attr("font-size", "40px")
-      .text(d => d.cost)
-
   const ges2 = container.selectAll("g.nodos")
     .data(nodes)
     .join("g")
@@ -90,31 +84,23 @@ const renderGraph2 = (edges, nodesNames, nodesMap, n) => {
     container.selectAll("g.nodos").selectAll("text")
       .attr("x", (d)=> d.x)
       .attr("y", (d) => d.y)
-
-    container.selectAll("g.lineas").selectAll("text")
-      .attr("x", (d) => d.source.x + Math.abs(d.source.x - d.target.x)/2)
-      .attr("y", (d) => d.source.y + Math.abs(d.source.y - d.target.y)/2)
   }
   
-  function dragStart(d) {
-    // console.log('drag start');
-    simulation.alphaTarget(0.5).restart();
-    d.fx = d.x;
-    d.fy = d.y;
+  function dragStart(event) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    event.subject.fx = event.subject.x;
+    event.subject.fy = event.subject.y;
   }
   
-  function drag(d) {
-    // console.log('dragging');
-    // simulation.alpha(0.5).restart()
-    d.fx = d.x;
-    d.fy = d.y;
+  function drag(event) {
+    event.subject.fx = event.x;
+    event.subject.fy = event.y;
   }
   
-  function dragEnd(d) {
-    // console.log('drag end');
-    simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
+  function dragEnd(event) {
+    if (!event.active) simulation.alphaTarget(0);
+    event.subject.fx = null;
+    event.subject.fy = null;
   }
 }
 
