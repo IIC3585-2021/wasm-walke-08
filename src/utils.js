@@ -175,7 +175,15 @@ Module().then(function (myModule) {
       path[i] = myModule.getValue(min_path + i * 4, "i32");
     }
 
-    alert(`Excecution time: ${(endDate - startDate)} ms || cost: ${resultCost}`);
+    const nuevoPath = path.map((posicion,idx) => ({nombre: nodesNames[idx], posicion: posicion}))
+    const newPath = nuevoPath.sort((elemento1, elemento2) => elemento1.posicion - elemento2.posicion)
+    console.log(newPath)
+    let stringFinal = ""
+    newPath.forEach(objeto => {
+      stringFinal += objeto.nombre + " -> "
+    })
+    document.getElementById("answer").innerHTML = stringFinal.substring(0,stringFinal.length - 3) + " = " + resultCost
+    alert(`Excecution time: ${(endDate - startDate)} ms || cost: ${resultCost} || Viaje final: ${stringFinal.substring(0,stringFinal.length - 3)}`);
     console.log(path);
   }
 })
