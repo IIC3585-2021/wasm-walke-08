@@ -17,10 +17,6 @@ const matrix = (rows, cols) => new Array(cols).fill(0).map((o, i) => new Array(r
 
 
 const renderGraph2 = (edges, nodesNames, nodesMap, n, container) => {
-  console.log("edges: ", edges)
-  console.log("nodesNames: ", nodesNames)
-  console.log("nodesMap: ", nodesMap)
-  console.log("n: ", n)
   const nodes = [];
   nodesNames.forEach(nombre => {
     nodes.push({name: nombre})
@@ -30,8 +26,6 @@ const renderGraph2 = (edges, nodesNames, nodesMap, n, container) => {
   edges.forEach(lista => {
     links.push({source: nodesNames[lista[0]], target: nodesNames[lista[1]], cost: lista[2]})
   })
-  console.log("links: ", links)
-  console.log("nodes: ", nodes)
 
   const ges = container.selectAll("g")
     .data(links)
@@ -194,8 +188,9 @@ Module().then(function (myModule) {
       path[i] = myModule.getValue(min_path + i * 4, "i32");
     }
 
-    const nuevoPath = path.map((posicion,idx) => ({nombre: nodesNames[idx], posicion: posicion !== 0 ? posicion: path.length}))
-    const newPath = nuevoPath.sort((elemento1, elemento2) => elemento1.posicion - elemento2.posicion)
+    const newPath = path
+      .map((posicion,idx) => ({nombre: nodesNames[idx], posicion: posicion !== 0 ? posicion: path.length}))
+      .sort((elemento1, elemento2) => elemento1.posicion - elemento2.posicion)
     console.log(newPath)
     const links = newPath.reduce((a,b) => {
       if (a.length === 0){

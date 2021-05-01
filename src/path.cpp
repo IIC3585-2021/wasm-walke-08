@@ -34,7 +34,9 @@ extern "C" {
     return;
   }
 
-  int32_t tsp(int32_t **graph, int32_t node, int32_t *nodes_path, int32_t cost, int32_t n, int32_t m, int32_t *min_cost, int32_t *min_path) {
+  int32_t tsp(int32_t **graph, int32_t node, int32_t *nodes_path,
+              int32_t cost, int32_t n, int32_t m, int32_t *min_cost, 
+              int32_t *min_path) {
     if (min_cost[0] > 0 && cost > min_cost[0]){
       return -1;
     }

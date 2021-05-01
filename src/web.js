@@ -45,26 +45,3 @@ addPlayer.addEventListener('click', (e) => {
   createInput(++nEdges);
 })
 
-// file.addEventListener('click', e => {
-//   e.preventDefault();
-//   console.log(e);
-//   const input = document.getElementById('formFile').files;
-//   let edges;
-//   const nodes = new Set();
-//   if(input.length)
-//   {
-//     var reader = new FileReader();
-
-//     reader.onload = function(e)
-//     {
-//       edges = e.target.result.split('\n').map(x => x.split(','));
-//       edges = edges.map(x=> [x[0].toUpperCase(), x[1].toUpperCase(), x[2]])
-//       edges.forEach(element => {
-//         nodes.add(element[0]).add(element[1])
-//         element[2] = parseInt(element[2]);
-//       });
-//       console.log(edges, nodes);
-//     };
-//     reader.readAsBinaryString(input[0]);
-//   }
-// });
