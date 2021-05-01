@@ -1,4 +1,4 @@
 #grafo {
-    margin-left: 300px;
-    margin-right: 2%;
+    border: 1px solid black;
+    overflow: hidden;
 }

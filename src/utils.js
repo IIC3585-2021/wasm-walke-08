@@ -7,10 +7,16 @@ const form = addPlayer.parentElement
 const width = 1500
 const height = 800
 
+
+const container = d3.select("#grafo")
+.append("svg")
+.attr("width", width)
+.attr("height", height)
+
 const matrix = (rows, cols) => new Array(cols).fill(0).map((o, i) => new Array(rows).fill(0))
 
 
-const renderGraph2 = (edges, nodesNames, nodesMap, n) => {
+const renderGraph2 = (edges, nodesNames, nodesMap, n, container) => {
   console.log("edges: ", edges)
   console.log("nodesNames: ", nodesNames)
   console.log("nodesMap: ", nodesMap)
@@ -26,10 +32,6 @@ const renderGraph2 = (edges, nodesNames, nodesMap, n) => {
   })
   console.log("links: ", links)
   console.log("nodes: ", nodes)
-  const container = d3.select("#grafo")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
 
   const ges = container.selectAll("g")
     .data(links)
@@ -104,6 +106,23 @@ const renderGraph2 = (edges, nodesNames, nodesMap, n) => {
   }
 }
 
+const paintEdges = (container, edges) => {
+  container.selectAll("g.lineas")
+    .selectAll("line")
+    .filter((d) => {
+      let verdadero = false;
+      console.log("d: ", d)
+      edges.forEach(arista => {
+        if ((arista.source == d.source.name && arista.target == d.target.name) || (arista.source == d.target.name && arista.target == d.source.name)) {
+          console.log("laksdfj")
+          verdadero = true
+        }
+      })
+      return verdadero 
+    })
+    .attr("stroke", "red")
+}
+
 const getGraph = () => {
   const inputs = Array.from(form.children).filter(x => x instanceof HTMLDivElement)
   
@@ -157,7 +176,7 @@ Module().then(function (myModule) {
   startBtn.onclick = e => {
     e.preventDefault();
     [edges, nodesNames, nodesMap, n] = getGraph();
-    renderGraph2(edges, nodesNames, nodesMap, n)
+    renderGraph2(edges, nodesNames, nodesMap, n, container)
   }
   solveBtn.onclick = e => {
     e.preventDefault();
@@ -175,14 +194,25 @@ Module().then(function (myModule) {
       path[i] = myModule.getValue(min_path + i * 4, "i32");
     }
 
-    const nuevoPath = path.map((posicion,idx) => ({nombre: nodesNames[idx], posicion: posicion}))
+    const nuevoPath = path.map((posicion,idx) => ({nombre: nodesNames[idx], posicion: posicion !== 0 ? posicion: path.length}))
     const newPath = nuevoPath.sort((elemento1, elemento2) => elemento1.posicion - elemento2.posicion)
     console.log(newPath)
+    const links = newPath.reduce((a,b) => {
+      if (a.length === 0){
+        const newedge = {source: null, target: b.nombre}
+        return [...a,newedge]
+      } 
+      const newlink = {source: a[a.length - 1].target, target: b.nombre}
+      return [...a,newlink]
+    }, [])
+    console.log("links: ", links)
     let stringFinal = ""
     newPath.forEach(objeto => {
       stringFinal += objeto.nombre + " -> "
     })
-    document.getElementById("answer").innerHTML = stringFinal.substring(0,stringFinal.length - 3) + " = " + resultCost
+
+    paintEdges(container, links)
+    document.getElementById("answer").innerHTML = "Path:  " + stringFinal.substring(0,stringFinal.length - 3) + " = " + resultCost + "  ||   Time: " +  (endDate - startDate) + " ms"
     alert(`Excecution time: ${(endDate - startDate)} ms || cost: ${resultCost} || Viaje final: ${stringFinal.substring(0,stringFinal.length - 3)}`);
     console.log(path);
   }
