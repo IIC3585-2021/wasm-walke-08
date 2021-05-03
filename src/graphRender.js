@@ -97,10 +97,8 @@ export const paintEdges = (container, edges) => {
     .selectAll("line")
     .filter((d) => {
       let verdadero = false;
-      console.log("d: ", d)
       edges.forEach(arista => {
         if ((arista.source == d.source.name && arista.target == d.target.name) || (arista.source == d.target.name && arista.target == d.source.name)) {
-          console.log("laksdfj")
           verdadero = true
         }
       })

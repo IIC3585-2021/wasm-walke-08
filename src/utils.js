@@ -40,15 +40,33 @@ Module().then(function (myModule) {
       const newlink = {source: a[a.length - 1].target, target: b.nombre}
       return [...a,newlink]
     }, [])
-    console.log("links: ", links)
+
+    const edgesMap = edges.map(edge => ([
+      nodesNames[edge[0]],
+      nodesNames[edge[1]], 
+      parseInt(edge[2])
+    ]));
+
+    const costsArr = [];
+    links.forEach(link => {
+      if (link.source !== null) {
+        edgesMap.forEach(edge => {
+          if ((edge[0] === link.source && edge[1] === link.target) ||
+              (edge[1] === link.source && edge[0] === link.target)) {
+            costsArr.push(edge[2])
+          }
+        })
+      }
+    })
+
     let stringFinal = ""
-    newPath.forEach(objeto => {
-      stringFinal += objeto.nombre + " -> "
+    newPath.forEach((objeto, idx) => {
+      stringFinal += objeto.nombre + ` -(${costsArr[idx]})-> `
     })
 
     paintEdges(container, links)
-    document.getElementById("answer").innerHTML = "Path:  " + stringFinal.substring(0,stringFinal.length - 3) + " = " + resultCost + "  ||   Time: " +  (endDate - startDate) + " ms"
-    alert(`Excecution time: ${(endDate - startDate)} ms || cost: ${resultCost} || Viaje final: ${stringFinal.substring(0,stringFinal.length - 3)}`);
+    document.getElementById("answer").innerHTML = "Path:  " + stringFinal.substring(0,stringFinal.length - 16) + " = " + resultCost + "  ||   Time: " +  (endDate - startDate) + " ms"
+    alert(`Excecution time: ${(endDate - startDate)} ms || cost: ${resultCost} || final path: ${stringFinal.substring(0,stringFinal.length - 16)}`);
     console.log(path);
   }
 })

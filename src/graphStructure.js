@@ -26,7 +26,6 @@ export const getGraph = () => {
   startGame.remove();
 
   document.getElementById('solve').removeAttribute('hidden');
-  console.log(edges, nodeNames, nodes)
   return [edges, nodeNames, nodes, nodeNames.length];
 }
   
